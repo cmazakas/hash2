@@ -52,8 +52,7 @@ int main()
     std::string repeating_digits;
     for( int i = 0; i < 8; ++i )
     {
-        std::string s = "1234567890";
-        repeating_digits.insert(repeating_digits.end(), s.begin(), s.end());
+        repeating_digits += "1234567890";
     }
 
     BOOST_TEST_EQ( digest<ripemd_160>( "a" ), std::string( "0bdc9d2d256b3ee9daae347be6f4dc835a467ffe" ) );
