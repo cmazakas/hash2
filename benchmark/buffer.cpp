@@ -56,9 +56,9 @@ void test( int N, int M )
     test_<boost::hash2::siphash_64>( data, N, M );
     test_<boost::hash2::md5_128>( data, N, M );
     test_<boost::hash2::sha1_160>( data, N, M );
+    test_<boost::hash2::ripemd_160>( data, N, M );
     test_<boost::hash2::hmac_md5_128>( data, N, M );
     test_<boost::hash2::hmac_sha1_160>( data, N, M );
-    test_<boost::hash2::ripemd_160>( data, N, M );
 
     puts( "--" );
 }
