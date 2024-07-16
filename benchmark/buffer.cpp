@@ -10,6 +10,7 @@
 #include <boost/hash2/md5.hpp>
 #include <boost/hash2/sha1.hpp>
 #include <boost/hash2/ripemd.hpp>
+#include <boost/hash2/openssl.hpp>
 #include <boost/hash2/hash_append.hpp>
 #include <boost/hash2/get_integral_result.hpp>
 #include <boost/core/type_name.hpp>
@@ -28,7 +29,7 @@ template<class H> void test_( unsigned char const * p, int N, int M )
 
     for( int i = 0; i < M; ++i )
     {
-        hash_append_range( h, p, p + N );
+        boost::hash2::hash_append_range( h, p, p + N );
     }
 
     clock_type::time_point t2 = clock_type::now();
@@ -45,20 +46,23 @@ extern unsigned char data[];
 
 void test( int N, int M )
 {
-    test_<boost::hash2::fnv1a_32>( data, N, M );
-    test_<boost::hash2::fnv1a_64>( data, N, M );
-    test_<boost::hash2::murmur3_32>( data, N, M );
-    test_<boost::hash2::murmur3_128>( data, N, M );
-    test_<boost::hash2::xxhash_32>( data, N, M );
-    test_<boost::hash2::xxhash_64>( data, N, M );
-    test_<boost::hash2::spooky2_128>( data, N, M );
-    test_<boost::hash2::siphash_32>( data, N, M );
-    test_<boost::hash2::siphash_64>( data, N, M );
+    // test_<boost::hash2::fnv1a_32>( data, N, M );
+    // test_<boost::hash2::fnv1a_64>( data, N, M );
+    // test_<boost::hash2::murmur3_32>( data, N, M );
+    // test_<boost::hash2::murmur3_128>( data, N, M );
+    // test_<boost::hash2::xxhash_32>( data, N, M );
+    // test_<boost::hash2::xxhash_64>( data, N, M );
+    // test_<boost::hash2::spooky2_128>( data, N, M );
+    // test_<boost::hash2::siphash_32>( data, N, M );
+    // test_<boost::hash2::siphash_64>( data, N, M );
     test_<boost::hash2::md5_128>( data, N, M );
+    test_<boost::hash2::openssl::md5_128>( data, N, M );
     test_<boost::hash2::sha1_160>( data, N, M );
+    test_<boost::hash2::openssl::sha1_160>( data, N, M );
     test_<boost::hash2::ripemd_160>( data, N, M );
-    test_<boost::hash2::hmac_md5_128>( data, N, M );
-    test_<boost::hash2::hmac_sha1_160>( data, N, M );
+    test_<boost::hash2::openssl::ripemd_160>( data, N, M );
+    // test_<boost::hash2::hmac_md5_128>( data, N, M );
+    // test_<boost::hash2::hmac_sha1_160>( data, N, M );
 
     puts( "--" );
 }
