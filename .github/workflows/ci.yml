@@ -57,15 +57,16 @@ jobs:
           for /f %%i in ("%GITHUB_BASE_REF%") do if "%%~nxi" == "master" set BOOST_BRANCH=master
           echo BOOST_BRANCH: %BOOST_BRANCH%
           cd ..
-          git clone -b c2py-v2 --depth 1 https://github.com/cmazakas/boost.git boost-root
+          git clone -b %BOOST_BRANCH% --depth 1 https://github.com/boostorg/boost.git boost-root
           cd boost-root
           xcopy /s /e /q %GITHUB_WORKSPACE% libs\%LIBRARY%\
           git submodule update --init tools/boostdep
-          python tools/boostdep/depinst/depinst.py -I benchmark -I example --git_args "--jobs 3" %LIBRARY%
+          python tools/boostdep/depinst/depinst.py -I benchmark --git_args "--jobs 3" %LIBRARY%
           cmd /c bootstrap
+          b2 -d0 headers
 
       - name: Run tests
         shell: cmd
         run: |
           cd ../boost-root
-          python c2.py build hash2 --toolset ${{matrix.toolset}} --cxxstd ${{matrix.cxxstd}} --address-model ${{matrix.addrmd}}
+          b2 -j3 libs/%LIBRARY%/test toolset=${{matrix.toolset}} cxxstd=${{matrix.cxxstd}} address-model=${{matrix.addrmd}} variant=debug,release embed-manifest-via=linker
