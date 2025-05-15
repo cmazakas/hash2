@@ -53,11 +53,11 @@ jobs:
           echo GITHUB_BASE_REF: %GITHUB_BASE_REF%
           echo GITHUB_REF: %GITHUB_REF%
           if "%GITHUB_BASE_REF%" == "" set GITHUB_BASE_REF=%GITHUB_REF%
-          set BOOST_BRANCH=develop
+          set BOOST_BRANCH=c2py-v2
           for /f %%i in ("%GITHUB_BASE_REF%") do if "%%~nxi" == "master" set BOOST_BRANCH=master
           echo BOOST_BRANCH: %BOOST_BRANCH%
           cd ..
-          git clone -b %BOOST_BRANCH% --depth 1 https://github.com/boostorg/boost.git boost-root
+          git clone -b %BOOST_BRANCH% --depth 1 https://github.com/cmazakas/boost.git boost-root
           cd boost-root
           xcopy /s /e /q %GITHUB_WORKSPACE% libs\%LIBRARY%\
           git submodule update --init tools/boostdep
